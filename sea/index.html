@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Лагуна</title>
+</head>
+<body>
+  <a id="lagoon" href="./stillwater/dist/index.html?map=1">Открыть лагуну</a>
+  <script>
+    const link = document.getElementById("lagoon");
+    if (new URLSearchParams(location.search).has("node")) {
+      link.href = "./legacy.html" + location.search;
+    } else if (location.protocol === "file:") {
+      link.href = "http://127.0.0.1:4174/sea/stillwater/dist/index.html?map=1";
+    }
+    location.replace(link.href);
+  </script>
+</body>
+</html>

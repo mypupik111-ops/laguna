@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru" data-depth="operations">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smile Koltushi · Финансовый стол</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="order-data.js"></script>
+  <script defer src="../sea/depth-wheel.js"></script>
+  <script defer src="connections.js"></script>
+  <script defer src="dashboard.js"></script>
+</head>
+<body>
+  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="collapse" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
+    <symbol id="spark" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 0c.8 7.8 4.2 11.2 12 12-7.8.8-11.2 4.2-12 12C11.2 16.2 7.8 12.8 0 12 7.8 11.2 11.2 7.8 12 0Z"/></symbol>
+  </svg>
+  <main class="shell" id="top">
+    <header class="heading">
+      <div class="project">
+        <span class="mark" aria-hidden="true"><svg><use href="#spark"/></svg></span>
+        <div><h1>Smile Koltushi</h1><p class="subtitle"><span id="units-label">300 футболок</span> · CL‑0002</p></div>
+      </div>
+      <div class="actions">
+        <a class="sea-entry" href="../sea/index.html">← Лагуна</a>
+        <div class="view-switch" role="group" aria-label="Вид дашборда">
+          <button id="view-canvas" type="button" aria-pressed="true">Канвас</button>
+          <button id="view-bento" type="button" aria-pressed="false">Бенто</button>
+        </div>
+        <button id="show-flow" type="button" hidden>Показать связи</button>
+        <button id="inputs" type="button">Вводные</button>
+        <button id="edit" type="button" aria-pressed="false"><svg><use href="#grid"/></svg><span>Настроить стол</span></button>
+      </div>
+    </header>
+    <nav class="depth-nav" aria-label="Уровень решения">
+      <button type="button" data-dive="operations" aria-controls="canvas-viewport" aria-current="true">Операции</button>
+      <button type="button" data-dive="rules" aria-controls="canvas-viewport">Правила</button>
+      <button type="button" data-dive="method" aria-controls="canvas-viewport">Методология</button>
+      <button type="button" data-dive="values" aria-controls="canvas-viewport">Ценности</button>
+    </nav>
+    <div class="edit-bar" id="edit-bar" hidden>
+      <span>Перетащи виджет или потяни за угол.</span>
+      <button id="reset" type="button">Сбросить раскладку</button>
+    </div>
+    <div class="canvas-viewport" id="canvas-viewport">
+    <div class="depth-water" id="depth-water" aria-hidden="true"></div>
+    <div class="depth-preview" id="depth-preview" aria-hidden="true" hidden></div>
+    <div class="canvas-stage">
+    <section class="board" id="board" aria-label="Виджеты заказа">
+      <svg id="connections" aria-hidden="true"></svg>
+      <article class="card hero" id="result">
+        <div class="hero-copy">
+          <div class="card-label">Можем купить пресс и будет ли это выгодно?</div>
+          <p class="hero-answer">Пока отложить</p>
+          <ul class="hero-reasons">
+            <li><strong>По деньгам.</strong> Свободный остаток цеха пока неизвестен.</li>
+            <li id="hero-economics"></li>
+          </ul>
+        </div>
+        <div class="card-end"><span class="estimate">Предварительная рекомендация</span><span class="card-action">Условия покупки</span></div>
+      </article>
+      <article class="card cash" id="cash">
+        <div class="card-label">Деньги до доплаты</div>
+        <output class="metric" id="cash-value"></output>
+        <p class="quiet" id="cash-explanation"></p>
+      </article>
+      <article class="card revenue" id="revenue">
+        <div class="card-label">Сумма заказа</div>
+        <output class="metric" id="revenue-value"></output>
+        <p class="quiet">Нужна сверка со счётом</p>
+      </article>
+      <article class="card costs" id="costs">
+        <div class="card-label">Затраты на партию</div>
+        <output class="metric" id="cost-value"></output>
+      </article>
+      <article class="card scenarios" id="scenarios">
+        <div class="card-label">Покупка или подряд</div>
+        <output class="metric" id="comparison-value"></output>
+        <p class="quiet" id="comparison-note"></p>
+      </article>
+      <article class="card checks" id="checks">
+        <div class="card-label">Что уточнить</div>
+        <p class="tile-text">Счёт, выписка и расходы</p>
+      </article>
+      <article class="card decision-card" id="decision">
+        <div class="card-label">Пресс с доставкой</div>
+        <output class="metric" id="press-value"></output>
+        <p class="quiet">Планируемая цена покупки</p>
+      </article>
+      <div id="ghost" aria-hidden="true" hidden><span></span></div>
+    </section>
+    </div>
+    </div>
+    <div class="zoom-controls" id="zoom-controls" role="group" aria-label="Масштаб канваса" hidden>
+      <button id="zoom-out" type="button" aria-label="Уменьшить масштаб">−</button>
+      <output id="zoom-level" aria-live="polite">100%</output>
+      <button id="zoom-in" type="button" aria-label="Увеличить масштаб">+</button>
+      <button id="zoom-fit" type="button">Вписать</button>
+    </div>
+    <template id="depth-rules"><article class="card depth-card depth-answer" id="rules-answer">
+            <p class="depth-label">Правила для закупок цеха · предложение</p>
+            <h2 class="card-label" id="rules-title">Проверяем деньги до платежа</h2>
+            <p>До покупки подтверждаем остаток и обязательства. Затем сравниваем полную стоимость своего нанесения и подряда на сопоставимых заказах.</p>
+            <template class="depth-detail"><p>У Веры сверяем остаток, аванс и дату доплаты. Затем проверяем, сколько денег уйдёт на пресс и какая часть этой суммы вернётся за счёт экономии.</p></template>
+          </article>
+          <article class="card depth-card" id="rules-reserve"><h3 class="card-label">Что защищаем</h3><p>Деньги на выполнение заказа и ближайшие обязательства. Размер резерва пока открыт.</p><template class="depth-detail"><p>Перед оплатой проверяем обязательства до даты доплаты. Свободный остаток берём после этих платежей.</p></template></article>
+          <article class="card depth-card" id="rules-threshold"><h3 class="card-label">Что изменит решение</h3><p>Подтверждённый остаток покрывает потребность, а экономия или реалистичная перепродажа покрывает разницу.</p><template class="depth-detail"><p>Сравниваем с подрядом на том же объёме и учитываем доставку пресса, своё нанесение и срок перепродажи.</p></template></article>
+    </template>
+    <template id="depth-method"><article class="card depth-card depth-answer" id="method-answer">
+            <p class="depth-label">Методология · способ проверки</p>
+            <h2 class="card-label" id="method-title">Считаем кассу и выгоду отдельно</h2>
+            <p>Касса отвечает, хватит ли денег в дату платежа. Выгода отвечает, какой вариант дешевле за выбранный срок.</p>
+            <template class="depth-detail"><p>Поступление аванса уменьшает потребность в деньгах до доплаты. Само по себе оно не меняет сравнительную стоимость пресса и подряда.</p></template>
+          </article>
+          <article class="card depth-card" id="method-cash"><h3 class="card-label">Касса по датам</h3><p>Сверяем остаток с выпиской. Учитываем только те поступления, которые доступны к моменту оплаты.</p><template class="depth-detail"><p>Складываем расходы до доплаты, вычитаем доступный аванс и сравниваем потребность с остатком цеха.</p></template></article>
+          <article class="card depth-card" id="method-comparison"><h3 class="card-label">Одинаковые вводные</h3><p>Сравниваем варианты на одном объёме. Перепродажу и сроки окупаемости проверяем отдельными сценариями.</p><template class="depth-detail"><p>Отдельно считаем покупку, подряд и покупку с перепродажей. Расходы, общие для всех вариантов, считаем один раз.</p></template></article>
+    </template>
+    <template id="depth-values"><article class="card depth-card depth-answer" id="values-answer">
+            <p class="depth-label">Ценности · вопрос на обсуждение</p>
+            <h2 class="card-label" id="values-title">Чем готовы рискнуть ради самостоятельности?</h2>
+            <p>Свой пресс даёт больше контроля над темпом и качеством. Свободные деньги дают возможность выполнить обещанное и справиться с неожиданным расходом.</p>
+            <template class="depth-detail"><p>Насколько важен контроль над сроками на ближайших заказах и какой риск для оборота мы готовы принять ради этого?</p></template>
+          </article>
+          <article class="card depth-card" id="values-reserve"><h3 class="card-label">Какой запас защищаем?</h3><p>Здесь решаем, где проходит граница допустимого риска при покупке. Для этой закупки граница пока открыта.</p><template class="depth-detail"><p>Можно обсудить границу как сумму или как перечень обязательств, которые должны оставаться покрытыми.</p></template></article>
+          <article class="card depth-card" id="values-mandate"><h3 class="card-label">Статус мандата</h3><p>В документе пока нет подтверждённых мандатов. Ценность получает этот статус после явного решения Кости.</p>
+            <template class="depth-detail"><a class="depth-source" href="https://docs.google.com/document/d/1OSaYVnm62krAypUKDs_KuuYYUbYU5yJ61C85Aua6l6A/edit" target="_blank" rel="noopener">Мандаты ценностей ↗</a></template></article>
+    </template>
+    <footer><time datetime="2026-11-14">14 ноября 2026</time><a href="https://drive.google.com/file/d/1giZqLf3YQawzn8CaCLtCbTEs4aPsxvlJ/view">Рабочая фиксация ↗</a></footer>
+    <p id="announcement" class="sr-only" role="status"></p>
+  </main>
+  <dialog id="input-dialog" aria-labelledby="inputs-title">
+    <form id="input-form">
+      <div class="dialog-head"><h2 id="inputs-title">Вводные заказа</h2><button id="close-inputs" type="button" aria-label="Закрыть">×</button></div>
+      <p class="quiet">Правки сохраняются в этом браузере.</p>
+      <div class="fields" id="fields"></div>
+      <p class="quiet" id="form-error" role="alert"></p>
+      <div class="dialog-actions"><button id="restore-inputs" type="button">Сбросить</button><button type="submit" class="primary">Применить</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

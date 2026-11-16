@@ -1,0 +1,8 @@
+node_modules/
+outputs/
+artifacts/
+.env
+.env.*
+*.log
+PROFILE.md
+WORKING-NOTES.md

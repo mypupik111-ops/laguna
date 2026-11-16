@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Море решений</title>
+  <link rel="stylesheet" href="sea.css">
+  <script defer src="depth-wheel.js"></script>
+  <script defer src="sea-data.js"></script>
+  <script defer src="sea.js"></script>
+</head>
+<body data-layer="sea">
+  <header class="topbar">
+    <a class="brand" href="./index.html" aria-label="Море решений, главная">
+      <span class="brand-mark" aria-hidden="true">◉</span>
+      <span>Море решений</span>
+    </a>
+    <nav aria-label="Глубина решения" id="layer-nav" hidden></nav>
+    <a class="back-to-map" id="back-to-map" href="./index.html" hidden>← Вся карта</a>
+  </header>
+  <main class="workspace">
+    <section class="map-panel" aria-label="Море решений">
+      <div class="map-viewport" id="map-viewport" tabindex="0" role="region" aria-label="Карта решений. Ctrl и колесо меняют глубину">
+        <div class="surface-art" id="surface-art" aria-hidden="true">
+          <canvas class="sea-surround" id="sea-surround" hidden></canvas>
+          <div id="sea-atlas" class="sea-atlas">
+            <img src="./map-tiles/sea-top-left.png" width="1674" height="940" alt="" draggable="false">
+            <img src="./map-tiles/sea-top-right.png" width="1674" height="940" alt="" draggable="false">
+            <img src="./map-tiles/sea-bottom-left.png" width="1674" height="940" alt="" draggable="false">
+            <img src="./map-tiles/sea-bottom-right.png" width="1674" height="940" alt="" draggable="false">
+          </div>
+        </div>
+        <div class="surface-light" id="surface-light" aria-hidden="true"></div>
+        <div class="map-water" id="map-water" aria-hidden="true"></div>
+        <div class="map-depth-preview" id="map-depth-preview" aria-hidden="true"></div>
+        <div class="map-world" id="map-world">
+          <svg id="map-lines" width="100%" height="100%" aria-hidden="true"></svg>
+          <div id="map-nodes"></div>
+        </div>
+      </div>
+        <div class="map-controls" role="group" aria-label="Масштаб карты">
+          <button type="button" id="zoom-out" aria-label="Уменьшить масштаб">−</button>
+          <output id="zoom-label">40%</output>
+          <button type="button" id="zoom-in" aria-label="Увеличить масштаб">+</button>
+          <button type="button" id="fit" aria-label="Вписать карту">Вписать</button>
+        </div>
+        <iframe id="finance-desk" class="embedded-finance" title="Финансовый стол Smile Koltushi" tabindex="-1" aria-hidden="true" inert></iframe>
+        <div class="map-shade" id="map-shade" aria-hidden="true"></div>
+    </section>
+    <aside class="inspector" id="inspector" aria-label="Рабочий стол решения" hidden>
+      <div class="inspector-body" id="inspector-body"></div>
+    </aside>
+  </main>
+  <p class="visually-hidden" id="status" role="status"></p>
+</body>
+</html>

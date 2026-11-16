@@ -1,0 +1,82 @@
+.decision-map { background: #09313c; }
+.decision-map > :is(header, main, footer, #restore, .flight-hint, .crosshair, .touch-navigation) {
+  display: none;
+}
+.decision-map #water { cursor: grab; touch-action: none; }
+.decision-map #water.panning { cursor: grabbing; }
+#lagoon-map {
+  position: fixed;
+  inset: 0;
+  font: 14px "Inter", "Segoe UI", sans-serif;
+  color: #f0fcff;
+  pointer-events: none;
+}
+#lagoon-map [hidden] { display: none; }
+#lagoon-map :is(button, a) { pointer-events: auto; }
+.lagoon-heading, .lagoon-controls, .lagoon-calculation-bar {
+  background: #08252ce0;
+  border: 1px solid #bde8ed48;
+  box-shadow: 0 8px 24px #001e2a3d;
+  backdrop-filter: blur(8px);
+}
+.lagoon-heading {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  padding: 12px 16px;
+  border-radius: 15px;
+}
+.lagoon-heading h1 { margin: 0; color: inherit; font: 700 23px "Inter", "Segoe UI", sans-serif; letter-spacing: -.025em; }
+.lagoon-controls {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 14px;
+}
+#lagoon-map button { color: inherit; border-radius: 9px; }
+.lagoon-controls button, #lagoon-return { padding: 9px 12px; background: #103840; border: 1px solid #90d5dd48; }
+.lagoon-controls button:hover, #lagoon-return:hover { background: #1d5058; }
+.lagoon-point {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  justify-items: center;
+  padding: 0;
+  gap: 5px;
+  background: transparent;
+  border: 0;
+}
+.lagoon-point-caption {
+  display: block;
+  padding: 10px 15px;
+  border: 1px solid #d9fff5ab;
+  border-radius: 12px;
+  background: #093039eb;
+  box-shadow: 0 6px 22px #05272d78, inset 0 1px 4px #b4fff247;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.lagoon-point-pin {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #e9fff3;
+  border: 2px solid #276f73;
+  box-shadow: 0 0 0 4px #e4fff590, 0 0 16px #b9ffee;
+}
+.lagoon-calculation {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  background: #0b2332;
+  pointer-events: auto;
+}
+#lagoon-map .lagoon-calculation[hidden] { display: grid; visibility: hidden; pointer-events: none; }
+.lagoon-calculation-bar { padding: 8px 16px; }
+#lagoon-desk { width: 100%; height: 100%; border: 0; }
